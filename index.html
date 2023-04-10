@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>세월호 스토리 웹사이트</title>
+    <style>
+      /* 배경색 */
+      body {
+        background-color: #ffd800;
+        padding: 0;
+      }
+      /* 네모 틀 */
+      .box {
+        width: 900px;
+        height: 600px;
+        border: 1px solid black;
+        background-color: rgb(255, 255, 255);
+        margin: 40px auto 0;
+        padding-top: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .text {
+        text-align: center;
+        font-size: 4em;
+        font-weight: bold;
+      }
+       /* 버튼 */
+       .btn {
+        display: none; /* 처음에는 버튼 숨기기 */
+        padding: 10px 20px;
+        font-size: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <audio id="sound" src="감염 싸이런 소리.mp3"></audio> <!-- 컨트롤러를 없앰 -->
+      <div id="timer" class="text"></div>
+      <h1>지금부터 문제를 찾아 풀고, 번호를 조합해 주세요.</h1>
+      <button class="btn" id="complete-btn">완료</button>
+    </div>
+    <script>
+      // 타이머와 버튼을 나타내는 함수
+      function showElements() {
+        const timerEl = document.getElementById('timer');
+        const completeBtn = document.getElementById('complete-btn');
+        const box = document.querySelector('.box');
+        let time = 120;    // 타이머 함수
+    function countdown() {
+      let minutes = Math.floor(time / 60);
+      let seconds = time % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      timerEl.innerHTML = `${minutes}:${seconds}`;
+      time--;
+      if (time < 0) {
+        clearInterval(intervalId);
+        timerEl.innerHTML = '시간 종료';
+      }
+    }
+
+    const intervalId = setInterval(countdown, 1000);
+
+    // 완료 버튼 클릭 이벤트
+    completeBtn.addEventListener('click', function() {
+      window.location.href = 'http://127.0.0.1:5500/2/index.html';
+    });
+
+    // 버튼 보이기
+    completeBtn.style.display = 'inline-block';
+    box.style.justifyContent = 'flex-start';
+  }
+
+  // 페이지가 로드되면 소리를 재생하고 나서 타이머와 버튼을 나타냄
+  window.addEventListener('load', function() {
+    const sound = document.getElementById('sound');
+    sound.play();
+    sound.addEventListener('ended', function() {
+      showElements();
+    });
+  });
+</script>
+</body>
+</html>
