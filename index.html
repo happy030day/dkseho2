@@ -13,6 +13,7 @@
       }
       /* 네모 틀 */
       .box {
+        
         width: 900px;
         height: 600px;
         border: 1px solid black;
@@ -29,18 +30,26 @@
         font-size: 4em;
         font-weight: bold;
       }
-       /* 버튼 */
-       .btn {
-        display: none; /* 처음에는 버튼 숨기기 */
-        padding: 10px 20px;
-        font-size: 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 20px;
-      }
+      /* 입력창 */
+#myInput {
+  display: inline-block;
+  width: 400px;
+  height: 60px;
+  font-size: 30px;
+}
+
+/* 제출 버튼 */
+#submit-btn {
+  display: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
     </style>
   </head>
   <body>
@@ -48,15 +57,45 @@
       <audio id="sound" src="효과음.mp3" autoplay></audio> <!-- 컨트롤러를 없앰 -->
       <div id="timer" class="text"></div>
       <h1>지금부터 문제를 찾아 풀고, 번호를 조합해 주세요.</h1>
-      <button class="btn" id="complete-btn">완료</button>
+      <form>
+        <input
+  type="text"
+  id="myInput"
+  placeholder="정답을 입력하세요."
+  style="
+    display: none;
+    width: 400px;
+    height: 60px;
+    font-size: 30px;
+  "
+/>
+<button onclick="checkAnswer()" id="submit-btn">제출</button>
+      </form>
     </div>
     <script>
+      function checkAnswer() {
+        var input = document.getElementById("myInput").value;
+        if (input === "416") {
+    window.open("https://happy030day.github.io/dkseho4/");
+        } else {
+          alert("정답이 아닙니다.");
+        }
+      }
       // 타이머와 버튼을 나타내는 함수
-      function showElements() {
-        const timerEl = document.getElementById('timer');
-        const completeBtn = document.getElementById('complete-btn');
-        const box = document.querySelector('.box');
-        let time = 180;    // 타이머 함수
+function showElements() {
+  const timerEl = document.getElementById("timer");
+  const completeBtn = document.getElementById("submit-btn");
+  const inputBox = document.getElementById("myInput");
+  const box = document.querySelector(".box");
+  let time = 180; // 타이머 함수
+
+  // ...
+
+  // 입력창과 버튼 보이기
+  inputBox.style.display = "block";
+  completeBtn.style.display = "inline-block";
+  box.style.justifyContent = "flex-start";
+
     function countdown() {
       let minutes = Math.floor(time / 60);
       let seconds = time % 60;
@@ -65,7 +104,7 @@
       time--;
       if (time < 0) {
         clearInterval(intervalId);
-        timerEl.innerHTML = '시간 종료';
+        timerEl.innerHTML = '시간 종료!';
         window.location.href = 'https://happy030day.github.io/dkseho3/';
       }
     }
