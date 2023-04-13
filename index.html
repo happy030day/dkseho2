@@ -1,89 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>세월호 스토리 웹사이트</title>
-  <style>
-    /* 배경색 */
-    body {
-      background-color: #ffd800;
-      padding: 0;
-    }
-    /* 네모 틀 */
-    .box {
-      width: 900px;
-      height: 600px;
-      border: 1px solid black;
-      background-color: rgb(255, 255, 255);
-      margin: 40px auto 0;
-      padding-top: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    #text {
-      font-size: 40px;
-      text-align: center;
-      padding-top: -200px;
-      height: fit-content;
-      padding: 0 70px;
-      opacity: 0; /* 텍스트가 처음에는 보이지 않도록 설정 */
-      transition: opacity 1s; /* 텍스트가 사라지는 애니메이션 효과를 설정 */
-    }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <p id="text"></p>
-  </div>
-  <audio id="audio" src="잠긴.mp3" autoplay style="display:none;"></audio>
-
-  <script>
-    const texts = [
-      "",
-      "단원고 학생들은 배가 침몰 당시, 방에서 있으라는 선생님과",
-      "안내방송의 지시를 듣고, 방 안에서 가만히 기다리고 있었습니다.",
-      "",
-      "그로 인하여 학생들은 방 안에 갇혀서는 아무것도 하지 못한 채", 
-      "배와 함께 물 속으로 가라 앉았습니다.", 
-      "",
-      "또 한번의 참사를 막기 위해", 
-      "단서를 찾고, 시간내에 이곳을 탈출하세요.", 
-    ];
-    let index = 0;
-    let charIndex = 0;
-    const textElement = document.getElementById("text");
-    function printText() {
-      if (charIndex < texts[index].length) {
-        textElement.textContent += texts[index].charAt(charIndex);
-        charIndex++;
-            if (charIndex === 7) { // "배와 함께" 문자열 다음에 오디오 재생
-      const audio = document.getElementById("audio");
-      audio.play();
-    }
-        setTimeout(printText, 100);
-      } else {
-        if (index === texts.length - 1 && charIndex === texts[index].length) {
-  setTimeout(function() {
-    window.location.href = "https://happy030day.github.io/dkseho2/"; // 이동하고자 하는 페이지의 URL을 입력하세요
-  }, 500); // 몇 초 후에 이동할지를 설정할 수 있습니다 (위 코드는 2초 후에 이동)
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>세월호 스토리 웹사이트</title>
+    <style>
+      /* 배경색 */
+      body {
+        background-color: #ffd800;
+        padding: 0;
+      }
+      /* 네모 틀 */
+      .box {
+        
+        width: 900px;
+        height: 600px;
+        border: 1px solid black;
+        background-color: rgb(255, 255, 255);
+        margin: 40px auto 0;
+        padding-top: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .text {
+        text-align: center;
+        font-size: 4em;
+        font-weight: bold;
+      }
+      /* 입력창 */
+#myInput {
+  display: inline-block;
+  width: 400px;
+  height: 60px;
+  font-size: 30px;
 }
-        setTimeout(function() {
-          textElement.style.opacity = 0;
-          charIndex = 0;
-          textElement.textContent = '';
-          index++;
-          if (index === texts.length) {
-            index = 0;
-          }
-          setTimeout(function() {
-            textElement.style.opacity = 1;
-            printText();
-          }, 200);
-        }, 700);
+
+/* 제출 버튼 */
+#submit-btn {
+  display: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <audio id="sound" src="효과음.mp3" autoplay></audio> <!-- 컨트롤러를 없앰 -->
+      <div id="timer" class="text"></div>
+      <h1>지금부터 문제를 찾아 풀고, 번호를 조합해 주세요.</h1>
+      <form>
+        <input
+  type="text"
+  id="myInput"
+  placeholder="정답을 입력하세요."
+  style="
+    display: none;
+    width: 400px;
+    height: 60px;
+    font-size: 30px;
+  "
+/>
+<button type="button" onclick="checkAnswer(event)" id="submit-btn">제출</button>
+      </form>
+    </div>
+    <script>
+     function checkAnswer(event) {
+  event.preventDefault(); // 폼 전송 막기
+
+  var input = document.getElementById("myInput").value;
+  if (input === "416") {
+    window.open("https://happy030day.github.io/dkseho4/");
+  } else {
+    alert("정답이 아닙니다.");
+    // 입력창에 있는 값을 없애줌
+    document.getElementById("myInput").value = "";
+    // focus를 입력창에 둠
+    document.getElementById("myInput").focus();
+  }
+}
+
+
+      // 타이머와 버튼을 나타내는 함수
+function showElements() {
+  const timerEl = document.getElementById("timer");
+  const completeBtn = document.getElementById("submit-btn");
+  const inputBox = document.getElementById("myInput");
+  const box = document.querySelector(".box");
+  let time = 180; // 타이머 함수
+
+  // ...
+
+  // 입력창과 버튼 보이기
+  inputBox.style.display = "block";
+  completeBtn.style.display = "inline-block";
+  box.style.justifyContent = "flex-start";
+
+    function countdown() {
+      let minutes = Math.floor(time / 60);
+      let seconds = time % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      timerEl.innerHTML = `${minutes}:${seconds}`;
+      time--;
+      if (time < 0) {
+        clearInterval(intervalId);
+        timerEl.innerHTML = '시간 종료!';
+        window.location.href = 'https://happy030day.github.io/dkseho3/';
       }
     }
-    printText();
-  </script>
+
+    const intervalId = setInterval(countdown, 1000);
+
+    // 버튼 보이기
+    completeBtn.style.display = 'inline-block';
+    box.style.justifyContent = 'flex-start';
+  }
+
+  // 페이지가 로드되면 소리를 재생하고 나서 타이머와 버튼을 나타냄
+  window.addEventListener('load', function() {
+    const sound = document.getElementById('sound');
+    sound.play(true);
+    sound.addEventListener('ended', function() {
+      showElements();
+
+      window.addEventListener('load', function() {
+  const sound = document.getElementById('sound');
+  sound.autoplay = true; // 자동 재생 설정
+  sound.addEventListener('ended', function() {
+    showElements();
+  });
+});
+    });
+  });
+</script>
 </body>
 </html>
